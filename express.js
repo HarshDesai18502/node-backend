@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
+// const path = require('path');
 
 // const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const expressHbs = require('express-handlebars');
+// const expressHbs = require('express-handlebars');
 
 const session = require('express-session');
 
@@ -16,9 +16,9 @@ const authRoutes = require('./Routes/auth');
 
 const errorController = require('./controllers/error');
 
-const exp = require('constants');
+// const exp = require('constants');
 
-const apiErrorHandler = require('./error/errorHandler');
+// const apiErrorHandler = require('./error/errorHandler');
 const sequelize = require('./utils/database');
 const Product = require('./models/product');
 const User = require('./models/user');
@@ -80,19 +80,15 @@ Product.belongsToMany(Cart, { through: CartItem });
 
 sequelize
   .sync()
-  .then((result) => {
-    return User.findByPk(1);
-  })
+  .then(() => User.findByPk(1))
   .then((user) => {
     if (!user) {
       User.create({ userName: 'Harsh', email: 'harsh123@gmail.com' });
     }
     return user;
   })
-  .then((user) => {
-    return user.createCart();
-  })
-  .then((cart) => {
+  .then((user) => user.createCart())
+  .then(() => {
     app.listen(3000);
   })
   .catch((err) => console.log(err));
